@@ -1,11 +1,11 @@
 class SessionsController < ApplicationController
 
   get '/login' do
-  erb :"/sessions/login"
+    erb :"/sessions/login"
   end
 
   post '/sessions' do
-    login(params[:email])
+    login(params[:email], params[:password])
     redirect '/tweets'
   end
 
