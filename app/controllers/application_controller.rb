@@ -10,7 +10,7 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/' do
-    "Hello World!"
+    erb :"/index"
   end
 
   helpers do
@@ -23,10 +23,14 @@ class ApplicationController < Sinatra::Base
       @current_user ||= User.find_by(:email => session[:email]) if session[:email]
     end
 
-    def login(email, password)
+    def login(username, email, password)
       user = User.find_by(:email => email)
       if user && user.authenticate(password)
+        # session[:user_id] = user.id
+        session[:username] = user.username
         session[:email] = user.email
+        session[:pasword] = user.password
+        redirect "users/#{:id}"
       else
         redirect '/login'
       end

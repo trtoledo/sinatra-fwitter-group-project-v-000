@@ -1,15 +1,27 @@
 class TweetsController < ApplicationController
 
   get '/tweets' do
-    "list all tweets"
+    @tweets = Tweet.all
+    erb :"/tweets/tweets"
   end
 
   get '/tweets/new' do
     if  !logged_in?
       redirect "/login"
     else
-      "A new tweet form"
+      erb :"/tweets/new"
     end
+  end
+
+  post '/tweets' do
+    @tweet = Tweet.create(params[:content])
+    @tweet.save
+    redirect "/tweets/#{@tweet.id}"
+  end
+
+  get '/tweets/:id' do
+    @tweet = Tweet.find(params[:id])
+    erb :'/tweets/show_tweet'
   end
 
   get '/tweets/:id/edit' do
@@ -20,6 +32,7 @@ class TweetsController < ApplicationController
       "An edit tweet form"
       else
         redirect '/tweets'
+      end
     end
   end
 
