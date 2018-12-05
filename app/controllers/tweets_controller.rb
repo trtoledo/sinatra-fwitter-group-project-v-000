@@ -42,7 +42,7 @@ class TweetsController < ApplicationController
       redirect "/login"
     else
       if post = current_user.posts.find_by(params[:id])
-      "An edit tweet form"
+      erb :"tweets/edit_tweet"
       else
         redirect '/tweets'
       end

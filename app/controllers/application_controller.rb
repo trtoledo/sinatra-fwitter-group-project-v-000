@@ -1,5 +1,5 @@
 require './config/environment'
- 
+
 class ApplicationController < Sinatra::Base
 
   configure do
@@ -23,18 +23,18 @@ class ApplicationController < Sinatra::Base
       @current_user ||= User.find_by(:email => session[:email]) if session[:email]
     end
 
-    def login(username, email, password)
-      user = User.find_by(:email => email)
-      if user && user.authenticate(password)
-        # session[:user_id] = user.id
-        session[:username] = user.username
-        session[:email] = user.email
-        session[:pasword] = user.password
-        redirect "users/#{:id}"
-      else
-        redirect '/login'
-      end
-    end
+    # def login(email, password)
+    #   user = User.find_by(:email => :email => email)
+    #   if user && user.authenticate(password)
+    #     session[:user_id] = user.id
+    #     session[:username] = user.username
+    #     session[:email] = user.email
+    #     session[:pasword] = user.password
+    #     redirect "/tweets"
+    #   else
+    #     redirect '/login'
+    #   end
+    # end
 
     def logout!
       session.clear
