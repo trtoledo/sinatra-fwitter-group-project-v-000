@@ -1,8 +1,13 @@
 class TweetsController < ApplicationController
 
   get '/tweets' do
-    @tweets = Tweet.all
-    erb :"/tweets/tweets"
+    if logged_in?
+      @user = User.find(session[:user_id])
+      @tweets = Tweet.all
+      erb :'/tweets/tweets'
+    else
+      redirect "/login"
+    end
   end
 
   get '/tweets/new' do
@@ -14,13 +19,21 @@ class TweetsController < ApplicationController
   end
 
   post '/tweets' do
-    @tweet = Tweet.create(params[:content])
-    @tweet.save
-    redirect "/tweets/#{@tweet.id}"
+    # if !params[:content].empty?
+    if !params[:content].blank?
+      @tweet = Tweet.new(:content => params[:content])
+      @tweet.save
+      @user = current_user
+      @user.tweets << @tweet
+      @user.save
+      redirect "/tweets/#{@tweet.id}"
+    else
+      redirect "/tweets/new"
+    end
   end
 
   get '/tweets/:id' do
-    @tweet = Tweet.find(params[:id])
+    @tweet = Tweet.find_by(id: params[:id])
     erb :'/tweets/show_tweet'
   end
 

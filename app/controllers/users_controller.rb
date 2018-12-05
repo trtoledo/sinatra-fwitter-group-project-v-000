@@ -13,18 +13,32 @@ class UsersController < ApplicationController
 
 
   post '/signup' do
-    if params[:username].empty? || params[:password].empty? || params[:email].empty?
+    if params[:username].blank? || params[:password].blank? || params[:email].blank?
       redirect '/signup'
     else
     @user = User.new(:username => params[:username], :email => params[:email], :password => params[:password])
     @user.save
-      session[:id] = @user.id
+      session[:user_id] = @user.id #login
       redirect '/tweets'
     end
+
+
+
+#     @user = User.new(:username =>params[:username], :email =>params[:email], :password =>params[:password])
+#     if !@user.username.empty? && !@user.email.empty? && @user.save
+#          session[:user_id] = @user.id
+#       redirect "/tweets"
+#     else
+#       redirect "/signup"
+#     end
+
+
   end
 
+
   get 'users/:id' do
-    erb :"show"
+    @user = User.find_by(id: params[:id])
+    erb :"users/show"
   end
 
 
