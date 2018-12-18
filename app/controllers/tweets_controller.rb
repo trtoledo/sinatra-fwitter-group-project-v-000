@@ -1,6 +1,6 @@
 class TweetsController < ApplicationController
 
-  get '/tweets' do    
+  get '/tweets' do
     if logged_in?
       @user = User.find(session[:user_id])
       @tweets = Tweet.all
@@ -11,10 +11,10 @@ class TweetsController < ApplicationController
   end
 
   get '/tweets/new' do
-    if  !logged_in?
-      redirect "/login"
-    else
+    if  logged_in?
       erb :"/tweets/new"
+    else
+      redirect "/login"
     end
   end
 
@@ -32,12 +32,12 @@ class TweetsController < ApplicationController
     end
   end
 
-  get '/tweets/:id' do
-    @tweet = Tweet.find_by(id: params[:id])
+  get '/tweets/:slug' do
+    @tweet = Tweet.find_by_slug(params[:slug])
     erb :'/tweets/show_tweet'
   end
 
-  get '/tweets/:id/edit' do
+  get '/tweets/:slug/edit' do
     if  !logged_in?
       redirect "/login"
     else
