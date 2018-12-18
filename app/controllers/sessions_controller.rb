@@ -1,10 +1,10 @@
 class SessionsController < ApplicationController
 
   get '/login' do
-    if !logged_in?
-      erb :"/sessions/login"
+    if logged_in?
+      redirect '/tweets'
     else
-     redirect '/tweets'
+      erb :"/sessions/login"
     end
   end
 
@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
     @user = User.find_by(:email => params[:email])
     if @user && @user.authenticate(params[:password])
       session[:user_id] = @user.id
-      redirect "/index"
+      redirect "/tweets"
     else
       redirect "/signup"
     end
@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
 
   get '/logout' do
     logout!
-    redirect '/tweets'
+    redirect '/login'
   end
 
 
