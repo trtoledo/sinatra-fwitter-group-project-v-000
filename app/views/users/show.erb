@@ -4,7 +4,7 @@
 </p>
 <h3>Email: <% @user.email%></h3>
 <ul>
-<% @tweets.each do |tweet| %>
+<% @user.tweets.each do |tweet| %>
    <li><a href="/tweets/<%= tweet.id %>"> <%= tweet.id %> </a>
        <a><%= tweet.content %> </a></li>
 <% end %>
