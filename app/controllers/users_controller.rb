@@ -8,8 +8,6 @@ class UsersController < ApplicationController
   end
 
   post '/signup' do
-    # binding.pry
-    # @user = User.new(params)
     if !params[:username].empty? && !params[:email].empty? && !params[:password].empty?
       @user = User.new(:username => params[:username], :email => params[:email], :password => params[:password])
       @user.save
@@ -31,7 +29,6 @@ class UsersController < ApplicationController
   end
 
   post '/login' do
-    # binding.pry
     @user = User.find_by(:username => params[:username])
     if @user && @user.authenticate(params[:password])
       session[:user_id] = @user.id
@@ -50,12 +47,9 @@ class UsersController < ApplicationController
     end
   end
 
-
   get '/users/:slug' do
     @user = User.find_by_slug(params[:slug])
     erb :"users/show"
   end
-
-
 
 end
